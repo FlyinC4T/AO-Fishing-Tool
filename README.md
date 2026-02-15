@@ -21,17 +21,23 @@ This is a solo project, it is not open for contribution or pull requests.
 - Template-based image recognition -- you choose the screenshot
 - Configurable search area (resize/move window)
 - DEBUGGING: Mouse coordinate display tool
-## Missing Features (TODO)
+<img width="403" height="299" alt="image" src="https://github.com/user-attachments/assets/15498c02-92e5-4a46-bc2b-1f8aa1594429" />
+
+## TODO (In order)
 - Configurable click patterns -- *currently they are preset and stuck inside the code untouchable unless you run the code yourself, given the coordinate pointer tool.*
   - This would include bait, lure, rod and offhand.
 - Include .NET 8.0 Runtime in builds
 - Include OpenCvSharp4 in builds
+- Config file (for saving)
 - A more user-friendly GUI (man it suuuucks :sob:)
 
 ## Requirements
 - Windows (uses Win32 APIs)
 - .NET 8.0 Runtime
 - OpenCvSharp4 (will change in the future)
+
+## For Developers (Manually installing)
+- Currently the numbers at the bottom are the clicking locations.
 
 ## Usage
 1. Load a template or screenshot image of the fishing prompt (the "!" icon)
