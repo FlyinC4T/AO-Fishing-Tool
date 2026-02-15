@@ -14,12 +14,13 @@
 ---
 
 # What is this?
-An insanely lightweight auto-fishing tool for Arcane Odyssey (Roblox) written in F#. It uses image recognition (OpenCV) to detect fishing prompts and automatically clicks to reel in fish, efficiently.
+An insanely lightweight auto-fishing tool for Arcane Odyssey (Roblox) written in F#. It uses image recognition (OpenCV) to detect fishing prompts and automatically clicks to reel in fish, fast but potentially inaccurate.
 This is a solo project, it is not open for contribution or pull requests.
 
 ## Features
 - Template-based image recognition -- you choose the screenshot
 - Configurable search area (resize/move window)
+- Actually working fish counter.
 - DEBUGGING: Mouse coordinate display tool
 <img width="403" height="299" alt="image" src="https://github.com/user-attachments/assets/15498c02-92e5-4a46-bc2b-1f8aa1594429" />
 
