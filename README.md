@@ -26,8 +26,6 @@ This is a solo project, it is not open for contribution or pull requests.
 - Light-weight image recognition
 ###
 - **TODO** - Configurable reeling time
-- **TODO** - Include .NET 8.0 Runtime in builds (?)
-- **TODO** - Include OpenCvSharp4 in builds (?)
 ###
 - **LATER** - Dynamic reeling / Smarter image recognition
 - **LATER** - A User-friendly GUI -- Organized, Tooltips, etc.
@@ -35,18 +33,19 @@ This is a solo project, it is not open for contribution or pull requests.
 - **LATER** - Save fish progress
 
 ## Developer Notes
+- The large file is due to embedded libraries in the build.
 - The program has an embedded image of the fishing prompt
 - The image recognition API is based on OpenCvSharp4, it only captures Roblox (when focused), a small aspect ratio of its window, to detect fishing prompts.
 
 ## Requirements
+*These do not apply to standalone builds.*
 - Windows (uses Win32 APIs)
 - .NET 8.0 Runtime
 - OpenCvSharp4 (will change in the future)
 
 ## Usage
-1. Download
-2.1. Position Yourself
-2.2. Set the Fishing rod to 9, Lure at 0 in the hotbar. (Currently Not Configurable) 
+1. [Download](https://github.com/FlyinC4T/AO-Fishing-Tool/releases/latest)
+2. Position Yourself
 3. Press "Toggle"
 4. Watch a movie
 
