@@ -5,46 +5,50 @@
 
 # ⚠️Caution⚠️
 - **Roblox does not permit the use of third-party software for automation.** You are not allowed to use macros unless you are actively present at your keyboard.
-- This program uses `user32.dll` Windows API calls to simulate mouse movement and mouse click inputs. While it only interacts with preset screen locations, be aware of the security implications of running automation software.
+- This program uses `user32.dll` Windows API calls to simulate mouse movement, mouse clicks, and more. While it only interacts with preset screen locations, be aware of the security implications of running automation software.
 - Game moderators in Arcane Odyssey will **absolutely** ban you, likely permanently, if you are caught using macros without being present. The same goes for all Roblox games.
 - **I am the distributor of this project and responsible for making it available. I am NOT responsible for how users choose to use it. If you get banned, it is entirely on you.**
 
-## This project is not affiliated with Roblox Corporation, Arcane Odyssey, Vetex, or Vetex Games.
+## This repository is not affiliated with Roblox Corporation, Arcane Odyssey or Vetex Games.
 
 ---
 
+<img width="196" height="142" alt="Screenshot_58" src="https://github.com/user-attachments/assets/e0967847-dd5e-415c-9248-498215c03d86" />
+
 # What is this?
-An insanely lightweight auto-fishing tool for Arcane Odyssey (Roblox) written in F#. It uses image recognition (OpenCV) to detect fishing prompts and automatically clicks to reel in fish, fast but potentially inaccurate.
+A standalone, robust, lightweight auto-fishing tool for Arcane Odyssey (Roblox) written in F#. It uses image recognition (OpenCV) to detect fishing prompts and automatically clicks to reel in fish. Fast but potentially inaccurate.
 This is a solo project, it is not open for contribution or pull requests.
 
 ## Features
-- Template-based image recognition -- you choose the screenshot
-- Configurable search area (resize/move window)
-- Actually working fish counter.
-- DEBUGGING: Mouse coordinate display tool
-<img width="403" height="299" alt="image" src="https://github.com/user-attachments/assets/15498c02-92e5-4a46-bc2b-1f8aa1594429" />
+- Simple configuration -- hotbar, bait
+- Fish caught-Counter
+- Panic button -- CTRL+P to turn it OFF.
+- Light-weight image recognition
+###
+- **TODO** - Configurable reeling time
+- **TODO** - Include .NET 8.0 Runtime in builds (?)
+- **TODO** - Include OpenCvSharp4 in builds (?)
+###
+- **LATER** - Dynamic reeling / Smarter image recognition
+- **LATER** - A User-friendly GUI -- Organized, Tooltips, etc.
+- **LATER** - Automate Fleet repairs
+- **LATER** - Save fish progress
 
-## TODO (In order)
-- Configurable click patterns -- *currently they are preset and stuck inside the code untouchable unless you run the code yourself, given the coordinate pointer tool.*
-  - This would include bait, lure, rod and offhand.
-- Include .NET 8.0 Runtime in builds
-- Include OpenCvSharp4 in builds
-- Config file (for saving)
-- A more user-friendly GUI (man it suuuucks :sob:)
+## Developer Notes
+- The program has an embedded image of the fishing prompt
+- The image recognition API is based on OpenCvSharp4, it only captures Roblox (when focused), a small aspect ratio of its window, to detect fishing prompts.
 
 ## Requirements
 - Windows (uses Win32 APIs)
 - .NET 8.0 Runtime
 - OpenCvSharp4 (will change in the future)
 
-## For Developers (Manually installing)
-- Currently the numbers at the bottom are the clicking locations.
-
 ## Usage
-1. Load a template or screenshot image of the fishing prompt (the "!" icon)
-2. Position/resize the window over where the prompt appears in-game
-3. Click "Toggle" to start
-4. Lay back, watch a movie, or scroll some reels.
+1. Download
+2.1. Position Yourself
+2.2. Set the Fishing rod to 9, Lure at 0 in the hotbar. (Currently Not Configurable) 
+3. Press "Toggle"
+4. Watch a movie
 
 ---
 
