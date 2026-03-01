@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="FishPrompt.png" />
+    <Content Include="icon.ico" />
+    <None Include="AOFishingTool.fsproj" />
+    <EmbeddedResource Include="Assets\FishPrompt.png" />
+    <EmbeddedResource Include="Assets\NotificationFish.png" />
+    <EmbeddedResource Include="Assets\NotificationSunken.png" />
+    <EmbeddedResource Include="Assets\NotificationTreasure.png" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

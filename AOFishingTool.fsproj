@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="Program.fs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="OpenCvSharp4" Version="4.10.0" />
+		<PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.0" />
+	</ItemGroup>
+</Project>
