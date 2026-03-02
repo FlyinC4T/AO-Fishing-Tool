@@ -1,0 +1,13 @@
+{
+  "UseBait": false,
+  "useLure": false,
+  "RodPosX": 0,
+  "RodPosY": 0,
+  "LurePosX": 0,
+  "LurePosY": 0,
+  "BaitPosX": 0,
+  "BaitPosY": 0,
+  "caughtFish": 0,
+  "caughtTreasure": 0,
+  "caughtSunken": 0
+}
