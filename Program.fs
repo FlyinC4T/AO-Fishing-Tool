@@ -567,15 +567,15 @@ type MainForm() as this =
     member this.FixFishingRod(withLure: bool) =
         lastFixRotation <- DateTime.Now
         
-        Thread.Sleep(Random().Next(100,150))
+        Thread.Sleep(Random().Next(50,100))
         clickAt(lurePosition.X, lurePosition.Y)
 
         if withLure then
-            Thread.Sleep(200);
+            Thread.Sleep(100);
             clickAtScreenRatio(0.65, 0.65)
             Thread.Sleep(Random().Next(600,800))
 
-        Thread.Sleep(500)
+        Thread.Sleep(150)
 
         clickAt(rodPosition.X, rodPosition.Y)
         if useBait then 
