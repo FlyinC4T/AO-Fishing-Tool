@@ -578,9 +578,10 @@ type MainForm() as this =
             lastFixRotation <- DateTime.Now
             Thread.Sleep(Random().Next(600,800))
 
-        Thread.Sleep(150)
+        Thread.Sleep(Random().Next(200,250))
 
         clickAt(rodPosition.X, rodPosition.Y)
+        Thread.Sleep(Random().Next(100,150))
         if useBait then 
             clickAt(baitPosition.X, baitPosition.Y)
         clickAtScreenRatio(0.75, 0.75) // default
