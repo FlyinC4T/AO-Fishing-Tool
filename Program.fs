@@ -76,24 +76,37 @@ let getWindowTitle (hwnd: IntPtr) =
     sb.ToString()
 
 let clickAt (x: int, y: int) =
-    if Point.Empty.Equals(Point(x, y)) then
-        printfn ("Empty click position attempted. Avoiding")
-    else
-        let screenWidth = Screen.PrimaryScreen.Bounds.Width
-        let screenHeight = Screen.PrimaryScreen.Bounds.Height
+    let foregroundWindow = GetForegroundWindow()
+    let windowTitle = getWindowTitle(foregroundWindow)
+
+    if windowTitle.Contains("Roblox") then
+        if Point.Empty.Equals(Point(x, y)) then
+            printfn ("Empty click position attempted. Avoiding")
+        else
+            let hwnd = GetForegroundWindow()
+            let mutable windowRect = Drawing.Rectangle()
+            GetWindowRect(hwnd, &windowRect) |> ignore
+        
+            // Convert window-relative to absolute screen coordinates
+            let absX = windowRect.X + x
+            let absY = windowRect.Y + y
+        
+            let screenWidth = Screen.PrimaryScreen.Bounds.Width
+            let screenHeight = Screen.PrimaryScreen.Bounds.Height
+        
+            // Convert to 0-65535 range for mouse_event
+            let mouseX = uint32((absX * 65536) / screenWidth)
+            let mouseY = uint32((absY * 65536) / screenHeight)
+        
     
-        // Convert to absolute coordinates (0-65535 range)
-        let absX = uint32((x * 65536) / screenWidth)
-        let absY = uint32((y * 65536) / screenHeight)
-    
-        // Move cursor
-        mouse_event(0x8001u, absX, absY, 0u, 0)  // MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE
-        Thread.Sleep(50)
-        // Click down
-        mouse_event(0x8002u, absX, absY, 0u, 0)  // MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN
-        Thread.Sleep(Random().Next(100, 200))
-        // Click up
-        mouse_event(0x8004u, absX, absY, 0u, 0)  // MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP
+            // Move cursor
+            mouse_event(0x8001u, mouseX, mouseY, 0u, 0)  // MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE
+            Thread.Sleep(Random().Next(80, 100))
+            // Click down
+            mouse_event(0x8002u, mouseX, mouseY, 0u, 0)  // MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN
+            Thread.Sleep(Random().Next(100, 200))
+            // Click up
+            mouse_event(0x8004u, mouseX, mouseY, 0u, 0)  // MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP
 
 let clickAtScreenRatio (ratioX: float, ratioY: float) =
     let bounds = Screen.PrimaryScreen.Bounds
@@ -556,13 +569,13 @@ type MainForm() as this =
 
         if withLure then
             Thread.Sleep(Random().Next(100,150))
-            if lurePosition <> Point.Empty then
-                clickAt(lurePosition.X, lurePosition.Y)
+            clickAt(lurePosition.X, lurePosition.Y)
             clickAtScreenRatio(0.75, 0.75)
-            Thread.Sleep(Random().Next(1000,1200))
+            Thread.Sleep(Random().Next(600,800))
         else
             clickAt(lurePosition.X, lurePosition.Y) // unselect rod
-            Thread.Sleep(500)
+
+        Thread.Sleep(500)
 
         clickAt(rodPosition.X, rodPosition.Y)
         if useBait then 
