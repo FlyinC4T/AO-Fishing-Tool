@@ -565,14 +565,12 @@ type MainForm() as this =
         if isRunning then timer.Start()  // Resume scanning
 
     member this.FixFishingRod(withLure: bool) =
-        lastFixRotation <- DateTime.Now
-        
-        Thread.Sleep(Random().Next(50,100))
         clickAt(lurePosition.X, lurePosition.Y)
 
         if withLure then
             Thread.Sleep(100);
             clickAtScreenRatio(0.65, 0.65)
+            lastFixRotation <- DateTime.Now
             Thread.Sleep(Random().Next(600,800))
 
         Thread.Sleep(150)
