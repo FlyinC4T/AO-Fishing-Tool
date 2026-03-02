@@ -204,13 +204,14 @@ type MainForm() as this =
     let mutable statCaughtFish : Control = null
     let mutable statCaughtTreasure : Control = null
     let mutable statCaughtSunken : Control = null
+    let mutable statLureRotation : Control = null
     let mutable mouseLabel : Form = null
     let mutable mouseTracker : Timer = null  // Add this field
     let mutable lastFixRotation = DateTime.Now
     let mutable cancelSource = new System.Threading.CancellationTokenSource()
 
     let timer = new Timer(Interval = 200)
-    let windowSize = new Size(230, 220)
+    let windowSize = new Size(230, 250)
     let template: Mat option = loadEmbeddedTemplate("FishPrompt.png")
     let notificationTemplateFish: Mat option = loadEmbeddedTemplate("NotificationFish.png")
     let notificationTemplateTreasure: Mat option = loadEmbeddedTemplate("NotificationTreasure.png")
@@ -270,14 +271,15 @@ type MainForm() as this =
         statCaughtFish <- new Label(Text = "Fish: 0 (Total: 0)", Location = Point(20, 120), Size = Size(150, 15), ForeColor = Color.White)
         statCaughtTreasure <- new Label(Text = "Treasure: 0 (Total: 0)", Location = Point(20, 135), Size = Size(150, 15), ForeColor = Color.White)
         statCaughtSunken <- new Label(Text = "Sunken: 0 (Total: 0)", Location = Point(20, 150), Size = Size(150, 15), ForeColor = Color.White)
-        
+        statLureRotation <- new Label(Text = "Next Lure in 120s", Location = Point(20, 165), Size = Size(150, 15), ForeColor = Color.White)
+
         this.InitializeConfig()
         
         this.Controls.AddRange([|
             btnToggle; btnUseBait; btnUseLure; btnBaitPos; btnRodPos; btnLurePos;
             statusTotalCaught; statusBaitSet; statusRodSet; statusLureSet;
             lblRodPos; lblPanicKey;
-            statCaughtFish; statCaughtTreasure; statCaughtSunken;
+            statCaughtFish; statCaughtTreasure; statCaughtSunken; statLureRotation;
             |])
         this.Controls.Add(new Label(Text = "Provided by FlyinC4T at GitHub", Location = Point(0, windowSize.Height - 55), ForeColor = Color.DarkGray, AutoSize = true))
 
@@ -416,6 +418,9 @@ type MainForm() as this =
             btnUseLure.BackColor <- (if useLure then Color.Green else Color.Red) // no ternary is unswag
 
     member this.GetSearchBounds() =
+        // update thing
+        statLureRotation.Text <- $"Next Lure in {120 - int (DateTime.Now - lastFixRotation).TotalSeconds}s"
+
         let hwnd = GetForegroundWindow()
         let mutable rect = Drawing.Rectangle()
         GetWindowRect(hwnd, &rect) |> ignore
@@ -548,15 +553,15 @@ type MainForm() as this =
         | "treasure" ->
             statusCaught.[1] <- statusCaught.[1] + 1
             statusCaughtSession.[1] <- statusCaughtSession.[1] + 1
-            statCaughtTreasure.Text <- $"Treasure: {statusCaughtSession.[1]} (Total: {statusCaught.[1] + statusCaughtSession.[1]})"
+            statCaughtTreasure.Text <- $"Treasure: {statusCaughtSession.[1]} (Total: {statusCaughtSession.[1]})"
         | "sunken" ->
             statusCaught.[2] <- statusCaught.[2] + 1
             statusCaughtSession.[2] <- statusCaughtSession.[2] + 1
-            statCaughtSunken.Text <- $"Sunken: {statusCaughtSession.[2]} (Total: {statusCaught.[2] + statusCaughtSession.[2]})"
+            statCaughtSunken.Text <- $"Sunken: {statusCaughtSession.[2]} (Total: {statusCaughtSession.[2]})"
         | _ -> // "fish"
             statusCaught.[0] <- statusCaught.[0] + 1
             statusCaughtSession.[0] <- statusCaughtSession.[0] + 1
-            statCaughtFish.Text <- $"Fish: {statusCaughtSession.[0]} (Total: {statusCaught.[0] + statusCaughtSession.[0]})"
+            statCaughtFish.Text <- $"Fish: {statusCaughtSession.[0]} (Total: {statusCaughtSession.[0]})"
 
         totalCaught <- totalCaught + 1
         statusTotalCaught.Text <- $"Caught: {totalCaught}"
