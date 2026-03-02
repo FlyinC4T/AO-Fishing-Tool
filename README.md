@@ -15,6 +15,7 @@
 ---
 
 <img width="567" height="379" alt="Screenshot_55" src="https://github.com/user-attachments/assets/904f4ed8-68c3-45b6-8e1b-82d48388e55b" />
+*screenshot of v1.1*
 
 # What is this?
 A standalone, robust, lightweight auto-fishing tool for Arcane Odyssey (Roblox) written in F#. It uses image recognition (OpenCV) to detect fishing prompts and automatically clicks to reel in fish. Fast but potentially inaccurate.
@@ -24,10 +25,10 @@ This is a solo project, it is not open for contribution or pull requests.
 - Simple configuration -- set clicking positions
 - Dynamic Reeling -- keeps reeling until a catch
 - Saves progress and settings (`.../config.json`)
-- Panic button -- CTRL+P to turn it OFF.
+- Panic button -- CTRL+P to turn it OFF
 - Light-weight image recognition
-###
-- **TODO** - "Next Lure Rotation" status
+### Other Features
+- **v1.2** - "Next Lure Rotation" status -- Next Lure in *X*s
 - **TODO** - "Time Enabled" status
 ###
 - **LATER** - A User-friendly GUI -- Organized, Tooltips, etc.
