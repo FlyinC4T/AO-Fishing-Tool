@@ -135,7 +135,7 @@ let captureArea (bounds: Rectangle) =
     g.CopyFromScreen(bounds.Location, Point.Empty, bounds.Size)
     bmp
 
-let findTemplate (screen: Mat) (template: Mat) (offsetX: int) (offsetY: int) (label: string) =
+let findTemplate (screen: Mat) (template: Mat) (offsetX: int) (offsetY: int) (label: string) (threshold: float) =
     try
         // Convert both to grayscale for consistent matching
         use screenGray = new Mat()
@@ -156,7 +156,7 @@ let findTemplate (screen: Mat) (template: Mat) (offsetX: int) (offsetY: int) (la
         printfn $"[{label}] Match confidence: {maxVal:F2}"
         
         (maxVal, 
-         if maxVal > 0.7 then
+         if maxVal > threshold then
             Some(offsetX + maxLoc.X + templateGray.Width / 2, offsetY + maxLoc.Y + templateGray.Height / 2)
          else
             None)
@@ -390,6 +390,7 @@ type MainForm() as this =
             mouseLabel.Hide()
 
     member this.ToggleFishing() =
+        lastFixRotation <- DateTime.Now
         if rodPosition = Point.Empty then
             MessageBox.Show("Set Fishing Rod position first.") |> ignore
         else
@@ -411,6 +412,7 @@ type MainForm() as this =
             btnUseBait.BackColor <- (if useBait then Color.Green else Color.Red) // no ternary is unswag
             
     member this.ToggleLure() =
+        lastFixRotation <- DateTime.Now
         if lurePosition = Point.Empty then
             MessageBox.Show("Set lure click position first.") |> ignore
         else
@@ -452,7 +454,7 @@ type MainForm() as this =
                     use screenBmp = captureArea(searchBounds)
                     use screenMat = bitmapToMat screenBmp
 
-                    let (confidence, pos) = findTemplate screenMat tmpl searchBounds.X searchBounds.Y "Fish Prompt"
+                    let (confidence, pos) = findTemplate screenMat tmpl searchBounds.X searchBounds.Y "Fish Prompt"  0.7
                 
                     match pos with
                     | Some(x, y) ->
@@ -462,7 +464,7 @@ type MainForm() as this =
                             Thread.Sleep(50)
                             use confirmBmp = captureArea(searchBounds)
                             use confirmMat = bitmapToMat confirmBmp
-                            let (_, confirmPos) = findTemplate confirmMat tmpl searchBounds.X searchBounds.Y $"Fish Prompt Confirm {i}"
+                            let (_, confirmPos) = findTemplate confirmMat tmpl searchBounds.X searchBounds.Y $"Fish Prompt Confirm {i}" 0.7
                             match confirmPos with
                             | Some _ -> confirmCount <- confirmCount + 1
                             | None -> ()
@@ -505,19 +507,19 @@ type MainForm() as this =
         // Check for fish notification
         match notificationTemplateFish with
         | Some tmpl ->
-            let (_, pos) = findTemplate screenMat tmpl notifBounds.X notifBounds.Y "Fish"
+            let (_, pos) = findTemplate screenMat tmpl notifBounds.X notifBounds.Y "Fish" 0.82
             match pos with
             | Some _ -> Some "fish"
             | None ->
                 match notificationTemplateTreasure with
                 | Some treasureTmpl ->
-                    let (_, treasurePos) = findTemplate screenMat treasureTmpl notifBounds.X notifBounds.Y "Treasure"
+                    let (_, treasurePos) = findTemplate screenMat treasureTmpl notifBounds.X notifBounds.Y "Treasure" 0.82
                     match treasurePos with
                     | Some _ -> Some "treasure"
                     | None ->
                         match notificationTemplateSunken with
                         | Some sunkenTmpl ->
-                            let (_, sunkenPos) = findTemplate screenMat sunkenTmpl notifBounds.X notifBounds.Y "Sunken"
+                            let (_, sunkenPos) = findTemplate screenMat sunkenTmpl notifBounds.X notifBounds.Y "Sunken" 0.82
                             match sunkenPos with
                             | Some _ -> Some "sunken"
                             | None -> None
@@ -572,26 +574,25 @@ type MainForm() as this =
         if isRunning then timer.Start()  // Resume scanning
 
     member this.FixFishingRod(withLure: bool) =
-        lastFixRotation <- DateTime.Now
-        if useLure then // If the lure isn't being used we dont needa do allat
-            
+        if useLure && withLure then // If the lure isn't being used we dont needa do allat
+
             clickAt(lurePosition.X, lurePosition.Y)
+            lastFixRotation <- DateTime.Now
+            Thread.Sleep(100);
 
-            if withLure then
-                Thread.Sleep(100);
-                clickAtScreenRatio(0.65, 0.65)
-                Thread.Sleep(Random().Next(850,1000))
-
-            Thread.Sleep(Random().Next(200,250))
+            clickAtScreenRatio(0.65, 0.65)
+            Thread.Sleep(Random().Next(1000,1400))
 
             clickAt(rodPosition.X, rodPosition.Y)
-            Thread.Sleep(Random().Next(100,150))
-            if useBait then 
-                clickAt(baitPosition.X, baitPosition.Y)
-            clickAtScreenRatio(0.75, 0.75) // default
-            ()
+            Thread.Sleep(Random().Next(200,250))
 
-        Thread.Sleep(400);
+            if useBait then clickAt(baitPosition.X, baitPosition.Y)
+
+            clickAtScreenRatio(0.75, 0.75) // default
+            () // return early
+
+        // lure off
+        Thread.Sleep(Random().Next(750,800));
         clickAtScreenRatio(0.75, 0.75) // default
 
     // Panic Button (CTRL+P) to stop fishing immediately
