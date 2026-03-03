@@ -580,9 +580,9 @@ type MainForm() as this =
             lastFixRotation <- DateTime.Now
 
             // bruh CLIIIICK PLEASASSE
-            for i in 1..5 do
-                Thread.Sleep(100)
+            for i in 1..3 do
                 clickAtScreenRatio(0.65, 0.65)
+                Thread.Sleep(100)
             
             Thread.Sleep(Random().Next(1000,1400))
 
