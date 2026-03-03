@@ -419,8 +419,10 @@ type MainForm() as this =
 
     member this.GetSearchBounds() =
         // update thing
-        statLureRotation.Text <- $"Next Lure in {120 - int (DateTime.Now - lastFixRotation).TotalSeconds}s"
-
+        if useLure then
+            statLureRotation.Text <- $"Next Lure in {120 - int (DateTime.Now - lastFixRotation).TotalSeconds}s"
+        else
+            lastFixRotation <- DateTime.Now
         let hwnd = GetForegroundWindow()
         let mutable rect = Drawing.Rectangle()
         GetWindowRect(hwnd, &rect) |> ignore
@@ -570,20 +572,26 @@ type MainForm() as this =
         if isRunning then timer.Start()  // Resume scanning
 
     member this.FixFishingRod(withLure: bool) =
-        clickAt(lurePosition.X, lurePosition.Y)
+        lastFixRotation <- DateTime.Now
+        if useLure then // If the lure isn't being used we dont needa do allat
+            
+            clickAt(lurePosition.X, lurePosition.Y)
 
-        if withLure then
-            Thread.Sleep(100);
-            clickAtScreenRatio(0.65, 0.65)
-            lastFixRotation <- DateTime.Now
-            Thread.Sleep(Random().Next(600,800))
+            if withLure then
+                Thread.Sleep(100);
+                clickAtScreenRatio(0.65, 0.65)
+                Thread.Sleep(Random().Next(850,1000))
 
-        Thread.Sleep(Random().Next(200,250))
+            Thread.Sleep(Random().Next(200,250))
 
-        clickAt(rodPosition.X, rodPosition.Y)
-        Thread.Sleep(Random().Next(100,150))
-        if useBait then 
-            clickAt(baitPosition.X, baitPosition.Y)
+            clickAt(rodPosition.X, rodPosition.Y)
+            Thread.Sleep(Random().Next(100,150))
+            if useBait then 
+                clickAt(baitPosition.X, baitPosition.Y)
+            clickAtScreenRatio(0.75, 0.75) // default
+            ()
+
+        Thread.Sleep(400);
         clickAtScreenRatio(0.75, 0.75) // default
 
     // Panic Button (CTRL+P) to stop fishing immediately
