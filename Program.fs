@@ -578,9 +578,12 @@ type MainForm() as this =
 
             clickAt(lurePosition.X, lurePosition.Y)
             lastFixRotation <- DateTime.Now
-            Thread.Sleep(100);
 
-            clickAtScreenRatio(0.65, 0.65)
+            // bruh CLIIIICK PLEASASSE
+            for i in 1..5 do
+                Thread.Sleep(100)
+                clickAtScreenRatio(0.65, 0.65)
+            
             Thread.Sleep(Random().Next(1000,1400))
 
             clickAt(rodPosition.X, rodPosition.Y)
